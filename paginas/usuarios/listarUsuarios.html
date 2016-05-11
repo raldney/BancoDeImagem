@@ -1,0 +1,31 @@
+<div class="mdl-grid bi-content" ng-controller="listarUsuariosController">
+          
+<a class="btn btn-primary" href="#/NovoUsuario"><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+  <i class="material-icons">add</i> Novo usuário
+</button></a>
+<table class="table table-condensed">
+  <table class="mdl-cell  mdl-cell--12-col mdl-data-table mdl-cell--4-col mdl-js-data-table  mdl-shadow--2dp">
+      <thead>
+        <tr>
+          <th class="mdl-data-table__cell--non-numeric">Fotográfo</th>
+          <th>Eventos</th>
+          <th>Fotos</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+  <tbody>
+    <tr ng-repeat="usuario in usuarios | orderBy: 'nome'">
+      <td>{{usuario.nome}}</td>
+      <td>{{usuario.eventos}}</td>
+      <td>{{usuario.fotos}}</td>
+      <td>
+        <a href="#/EditarUsuario/{{usuario.id}}">
+          <button class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored">
+            <i class="material-icons">edit</i>
+          </button>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>

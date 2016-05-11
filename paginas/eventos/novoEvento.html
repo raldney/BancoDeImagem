@@ -1,0 +1,35 @@
+<div class="row" ng-controller="adicionarUsuarioController">
+<div class="col-md-6">
+
+	<form name="AddNewForm" id="add-new-form" method="post" action="">
+	 
+	  <div class="form-group">
+	  	<label for="name">Nome</label>
+	  	<input class="form-control" type="text" ng-model="usuario.nome" required />
+	  </div>
+
+	  <div class="form-group">
+	  	<label for="name">Login</label>
+	  	<input class="form-control" type="text" ng-model="usuario.login" required />
+	  </div>
+
+	  <div class="form-group">
+	  	<label for="name">Senha</label>
+	  	<input class="form-control" type="text" ng-model="usuario.senha" required />
+	  </div>
+
+	  <div class="form-group">
+	  	<label for="email">Tipo</label>
+	  	<input class="form-control" type="text" ng-model="usuario.tipo" required />
+	  </div>
+	  <div class="form-group">
+	  	<label for="country">Status</label>
+	  	<input class="form-control" type="text" ng-model="usuario.status" required />
+	  </div>
+	  
+	  <button class="btn btn-primary" ng-disabled="AddNewForm.$invalid || isUnchanged(usuario)" id="add-new-btn" ng-click="novoUsuario(usuario)">Save</button>
+	  <a href="#/" class="btn">Cancel</a>
+	</form>
+
+</div>
+</div>

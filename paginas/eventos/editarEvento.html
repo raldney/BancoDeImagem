@@ -6,12 +6,21 @@
   </div>
   <div class="mdl-card__supporting-text">
     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+      <label for="sample3">Nome:</label>
       <input class="mdl-textfield__input"  ng-model="evento.nome" value="{{evento.nome}}" type="text" id="sample3">
-      <label class="mdl-textfield__label" for="sample3">Nome</label>
     </div>
     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+      <label for="sample3">Descrição:</label>
       <input class="mdl-textfield__input" type="text" ng-model="evento.descricao" value="{{evento.descricao}}"  id="sample3">
-      <label class="mdl-textfield__label" for="sample3">Descrição</label>
+    </div>
+     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+      <label for="sample3">Login:</label>
+      <input class="mdl-textfield__input" type="text" ng-model="evento.login" value="{{evento.login}}"  id="sample3">
+    </div>
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+      <label for="sample3">Senha:</label>
+      <input class="mdl-textfield__input" type="text" ng-model="evento.senha" value="{{evento.senha}}"  id="sample3">
+      <input class="mdl-textfield__input" type="hidden" ng-model="evento.usuario" value="{{evento.usuario}}"  id="sample3">
     </div>
   </div>
   <div class="mdl-card__actions mdl-card--border">

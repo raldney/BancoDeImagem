@@ -22,14 +22,7 @@ html, body {
 .bi-drawer {
   border: none;
 }
-/* iOS Safari specific workaround */
-.bi-drawer .mdl-menu__container {
-  z-index: -1;
-}
-.bi-drawer .bi-navigation {
-  z-index: -2;
-}
-/* END iOS Safari specific workaround */
+
 .bi-drawer .mdl-menu .mdl-menu__item {
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -123,7 +116,7 @@ html, body {
 }
 .bi-updates .mdl-card__title {
   min-height: 200px;
-  background-image: url('images/dog.png');
+  /*background-image: url('images/dog.png');*/
   background-position: 90% 100%;
   background-repeat: no-repeat;
 }
@@ -161,4 +154,31 @@ html, body {
 
 .mdl-data-table__cell--non-numeric {
   text-align: right !important;
+}
+
+
+.bi-login{
+  margin-left: 15%;
+float: left;
+padding: 10%;
+
+}
+
+.mdl-button--file input {
+  cursor: pointer;
+  height: 100%;
+  right: 0;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  width: 300px;
+  z-index: 4;
+}
+
+.mdl-textfield--file .mdl-textfield__input {
+  box-sizing: border-box;
+  width: calc(100% - 32px);
+}
+.mdl-textfield--file .mdl-button--file {
+  right: 0;
 }

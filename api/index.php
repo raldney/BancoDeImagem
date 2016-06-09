@@ -1,5 +1,4 @@
 <?php
-
 require 'Slim/Slim.php';
 
 $app = new Slim();
@@ -24,6 +23,7 @@ $app->delete('/Eventos/:id', 'deleteEvento');
 /*FOTOS*/
 // $app->get('/Fotos', 'getFotos');
 $app->get('/Fotos/:id', 'getFotos');
+$app->get('/EnviarFotos/:id', 'enviarFotos');
 
 
 $app->post('/fileUpload/:id', 'uploadFotos');
@@ -82,15 +82,16 @@ function addUsuario() {
 	$request = Slim::getInstance()->request();
 	$usuario = json_decode($request->getBody());
 
-	$sql = "INSERT INTO usuarios (nome, login, senha, tipo, status) VALUES (:nome, :login, :senha, :tipo, :status)";
+	$sql = "INSERT INTO usuarios (nome, login, senha, tipo, status, email) VALUES (:nome, :login, :senha, 'fotografo', 1, :email)";
 	try {
 		$db = DB_Connection();
 		$stmt = $db->prepare($sql);  
 		$stmt->bindParam("nome", $usuario->nome);
 		$stmt->bindParam("login", $usuario->login);
 		$stmt->bindParam("senha", $usuario->senha);
-		$stmt->bindParam("tipo", $usuario->tipo);
-		$stmt->bindParam("status", $usuario->status);
+		$stmt->bindParam("email", $usuario->email);
+		// $stmt->bindParam("tipo", "fotografo");
+		// $stmt->bindParam("status", 1);
 		$stmt->execute();
 		$usuario->id = $db->lastInsertId();
 		$db = null;
@@ -115,15 +116,16 @@ function updateUsuario($id) {
 	$request = Slim::getInstance()->request();
 	$usuario = json_decode($request->getBody());
 
-	$sql = "UPDATE usuarios SET nome=:nome,login=:login,senha=:senha, tipo=:tipo, status=:status WHERE id=:id";
+	$sql = "UPDATE usuarios SET nome=:nome,login=:login,senha=:senha, email=:email WHERE id=:id";
 	try {
 		$db = DB_Connection();
 		$stmt = $db->prepare($sql);  
 		$stmt->bindParam("nome", $usuario->nome);
 		$stmt->bindParam("login", $usuario->login);
 		$stmt->bindParam("senha", $usuario->senha);
-		$stmt->bindParam("tipo", $usuario->tipo);
-		$stmt->bindParam("status", $usuario->status);
+		$stmt->bindParam("email", $usuario->email);
+		// $stmt->bindParam("tipo", "fotografo");
+		// $stmt->bindParam("status", "1");
 		$stmt->bindParam("id", $id);
 		$stmt->execute();
 		$db = null;
@@ -131,6 +133,7 @@ function updateUsuario($id) {
 	} catch(PDOException $e) {
 		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	}
+
 }
 function deleteUsuario($id) {
 	$sql = "DELETE FROM usuarios WHERE id=".$id;
@@ -272,6 +275,28 @@ function getFotos($id) {
 	}
 }
 
+function enviarFotos($id) {
+	$sql = "SELECT * FROM fotos WHERE evento_id ='".$id."' and selecionada = 1";
+	try {
+		$db = DB_Connection();
+		$stmt = $db->query($sql);  
+		$fotos = $stmt->fetchAll(PDO::FETCH_OBJ);
+		$db = null;
+		echo json_encode($fotos);
+
+
+
+
+
+
+
+
+
+	} catch(PDOException $e) {
+		echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	}
+}
+
 function uploadFotos($id){
 	$pastaEvento = "/var/www/BancoDeImagem/eventosFotos/". $id;
 	if (isset($_FILES['file']['name']) && $_FILES['file']['name'] != "") {
@@ -365,6 +390,54 @@ function gera_thumb_max($dir_imagem, $dest, $max_width, $max_height) {
         gera_thumb($dir_imagem, $dest, round($new_width), $max_height);
     }
 }
+
+
+function enviarEmail($conteudo,$titulo,$email){
+	$mail = new PHPMailer();
+	// Define os dados do servidor e tipo de conexão
+	// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+	// $mail->IsSMTP(); // Define que a mensagem será SMTP
+	// $mail->Host = "smtp.dominio.net"; // Endereço do servidor SMTP
+	//$mail->SMTPAuth = true; // Usa autenticação SMTP? (opcional)
+	//$mail->Username = 'seumail@dominio.net'; // Usuário do servidor SMTP
+	//$mail->Password = 'senha'; // Senha do servidor SMTP
+	// Define o remetente
+	// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+	$mail->From = "seumail@dominio.net"; // Seu e-mail
+	$mail->FromName = "BancoDeImagem"; // Seu nome
+	// Define os destinatário(s)
+	// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+	$mail->AddAddress('fulano@dominio.com.br', 'Fulano da Silva');
+	// $mail->AddAddress('ciclano@site.net');
+	//$mail->AddCC('ciclano@site.net', 'Ciclano'); // Copia
+	//$mail->AddBCC('fulano@dominio.com.br', 'Fulano da Silva'); // Cópia Oculta
+	// Define os dados técnicos da Mensagem
+	// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+	$mail->IsHTML(true); // Define que o e-mail será enviado como HTML
+	//$mail->CharSet = 'iso-8859-1'; // Charset da mensagem (opcional)
+	// Define a mensagem (Texto e Assunto)
+	// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+	$mail->Subject  = "Mensagem Teste"; // Assunto da mensagem
+	$mail->Body = "Este é o corpo da mensagem de teste, em <b>HTML</b>!  :)";
+	$mail->AltBody = "Este é o corpo da mensagem de teste, em Texto Plano! \r\n :)";
+	// Define os anexos (opcional)
+	// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+	//$mail->AddAttachment("c:/temp/documento.pdf", "novo_nome.pdf");  // Insere um anexo
+	// Envia o e-mail
+	$enviado = $mail->Send();
+	// Limpa os destinatários e os anexos
+	$mail->ClearAllRecipients();
+	$mail->ClearAttachments();
+	// Exibe uma mensagem de resultado
+	if ($enviado) {
+	  echo "E-mail enviado com sucesso!";
+	} else {
+	  echo "Não foi possível enviar o e-mail.";
+	  echo "<b>Informações do erro:</b> " . $mail->ErrorInfo;
+	}
+
+}
+
 
 
 

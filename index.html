@@ -20,7 +20,7 @@
 				<header class="bi-drawer-header">
 					<!-- <img src="images/user.jpg" class="bi-avatar"> -->
 					<div class="bi-avatar-dropdown">
-						<span>{{usuario.nome}}</span>
+						<span>{{usuarioLogado.nome}}</span>
 						<div class="mdl-layout-spacer"></div>
 						<button id="accbtn" class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon">
 						<i class="material-icons" role="presentation">arrow_drop_down</i>
@@ -33,9 +33,9 @@
 				</header>
 				<nav class="bi-navigation mdl-navigation mdl-color--blue-grey-800">
 					<a class="mdl-navigation__link" href="/"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">home</i>Home</a>
-					<a ng-if="usuarios" class="mdl-navigation__link" href="#/Usuarios"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">people</i>Fotográfos</a>
-					<a ng-if="eventos" class="mdl-navigation__link" href="#/Eventos"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">party_mode</i>Eventos</a>
-					<a ng-if="fotos" class="mdl-navigation__link" href="#/ListarFotos/{{usuario.evento}}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">party_mode</i>Fotos</a>
+					<a ng-if="usuarioLogado.usuarios" class="mdl-navigation__link" href="#/Usuarios"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">people</i>Fotográfos</a>
+					<a ng-if="usuarioLogado.eventos" class="mdl-navigation__link" href="#/Eventos"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">party_mode</i>Eventos</a>
+					<a ng-if="usuarioLogado.fotos" class="mdl-navigation__link" href="#/ListarFotos/{{usuarioLogado.evento}}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">party_mode</i>Fotos</a>
 				</nav>
 			</div>
 			<main class="mdl-layout__content mdl-color--grey-100">

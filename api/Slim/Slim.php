@@ -46,6 +46,7 @@ if ( !defined('MCRYPT_MODE_CBC') ) {
 
 //This determines which errors are reported by PHP. By default, all
 //errors (including E_STRICT) are reported.
+error_reporting(E_ERROR | E_WARNING | E_PARSE | E_NOTICE);
 error_reporting(E_ALL | E_STRICT);
 
 //This tells PHP to auto-load classes using Slim's autoloader; this will

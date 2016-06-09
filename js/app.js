@@ -59,11 +59,11 @@ app.run(function($rootScope, $location, $cookieStore) {
 
 app.controller('LoginController', function ($scope, $log, $cookieStore, $location,$http) {
     function usuarioSessao(usr) {
-      $scope.usuario.nome = usr.nome;
-      $scope.usuario.tipo = usr.tipo;
-      $scope.usuario.logado = true;
-
-      $log.info($scope.usuario);
+      $scope.usuarioLogado.nome = usr.nome;
+      $scope.usuarioLogado.tipo = usr.tipo;
+      $scope.usuarioLogado.logado = true;
+      
+      $log.info($scope.usuarioLogado);
 
       $cookieStore.put('logado', true);
       $cookieStore.put('usuario', usr);
@@ -72,7 +72,7 @@ app.controller('LoginController', function ($scope, $log, $cookieStore, $locatio
     };
 
     $scope.iniciarSessao = function() {
-        $http.post('api/Login',$scope.usuario).success(function(data) {
+        $http.post('api/Login',$scope.usuarioLogado).success(function(data) {
             console.log(data);
                 if(data != null && data != "false"){
                     usuarioSessao(data);
@@ -84,7 +84,7 @@ app.controller('LoginController', function ($scope, $log, $cookieStore, $locatio
         };
 
     $scope.sair = function() {
-      $scope.usuario = {nombre: "", puesto: '', estaConectado: ''};
+      $scope.usuarioLogado = {nombre: "", puesto: '', estaConectado: ''};
 
       $cookieStore.remove('logado');
       $cookieStore.remove('usuario');
@@ -95,20 +95,24 @@ app.controller('LoginController', function ($scope, $log, $cookieStore, $locatio
 
     if($cookieStore.get('logado')){
         $scope.logado = $cookieStore.get('logado');
-        $scope.usuario = $cookieStore.get('usuario');
-        if($scope.usuario.tipo == 'fotografo'){
-            $scope.usuarios = false;
-            $scope.eventos = true;
+        $scope.usuarioLogado = $cookieStore.get('usuario');
+        if($scope.usuarioLogado.tipo == 'fotografo'){
+            $scope.usuarioLogado.usuarios = false;
+            $scope.usuarioLogado.eventos = true;
+            $scope.usuarioLogado.fotos = false;
         }
-        if($scope.usuario.tipo == 'evento'){
-            $scope.usuarios = false;
-            $scope.eventos = false;
-            $scope.fotos = true;
+        if($scope.usuarioLogado.tipo == 'evento'){
+            $scope.usuarioLogado.usuarios = false;
+            $scope.usuarioLogado.eventos = false;
+            $scope.usuarioLogado.fotos = true;
         }
-        if($scope.usuario.tipo == 'admin'){
-            $scope.usuarios = true;
-            $scope.eventos = true;
+        if($scope.usuarioLogado.tipo == 'admin'){
+            $scope.usuarioLogado.usuarios = true;
+            $scope.usuarioLogado.eventos = true;
+            $scope.usuarioLogado.fotos = false;
         }
+
+
     }
 
 });
@@ -241,19 +245,32 @@ app.controller('listarUsuariosController', [
         '$scope','fileUpload', '$http', '$location', '$routeParams',
         function($scope, fileUpload, $http, $location, $routeParams) {
              var id = $routeParams.id; // Id do evento;
+
                 $http.get('api/Fotos/'+ id).success(function(data) {
                     $scope.fotos = data;
                 });
 
+
+                
+                
+
              $scope.adicionarFotos = function(){
                 var files = $scope.novasFotos;
                 var uploadUrl = "/api/fileUpload/" + id;
-                for (var i = 0, f; f = files[i]; i++) {
-                    fileUpload.uploadFileToUrl(f, uploadUrl);
+                    console.log(files);
+
+                if(files){
+                    for (var i = 0, f; f = files[i]; i++) {
+                        fileUpload.uploadFileToUrl(f, uploadUrl);
+                    }
+                    $http.get('api/Fotos/'+ id).success(function(data) {
+                        $scope.fotos = data;
+                    });
+                }else{
+                    console.log(files);
+                    alert("Selecione alguma foto!");
                 }
-                $http.get('api/Fotos/'+ id).success(function(data) {
-                    $scope.fotos = data;
-                });
+                
 
             };
 
@@ -264,6 +281,12 @@ app.controller('listarUsuariosController', [
 
                   $http.get('api/Fotos/'+ id).success(function(data) {
                     $scope.fotos = data;
+                });
+            }
+
+             $scope.finalizarEscolha = function(foto){
+                  $http.get('api/EnviarFotos/'+ id).success(function(data) {
+                    alert(data);
                 });
             }
 

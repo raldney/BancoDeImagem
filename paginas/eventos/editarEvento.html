@@ -1,5 +1,7 @@
 <div class="mdl-grid bi-content">
-<div class="bi-card-wide mdl-card mdl-shadow--2dp" ng-controller='editarEventoController'>
+<div class="mdl-cell mdl-cell--2-col"></div>
+
+<div class="bi-card-wide mdl-card mdl-shadow--2dp mdl-cell mdl-cell--8-col" ng-controller='editarEventoController'>
 <form novalidate ng-repeat="evento in EventoDetalhes" name="AddNewForm" id="add-new-form" method="post" action="">
   <div class="mdl-card__title">
     <h2 class="mdl-card__title-text">Editar Evento</h2>
@@ -35,10 +37,12 @@
     
   </div>
   <div class="mdl-card__menu">
-    <a href="/" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+    <a href="/#/Eventos" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
       <i class="material-icons">reply</i>
     </span>
   </div>
   </form>
+<div class="mdl-cell mdl-cell--2-col"></div>
+
 </div>
 </div>

@@ -182,3 +182,13 @@ padding: 10%;
 .mdl-textfield--file .mdl-button--file {
   right: 0;
 }
+
+.add{
+  background: rgb(0, 255, 0);
+
+}
+
+.remove{
+  background: rgb(255, 0, 0);
+
+}

@@ -1,8 +1,7 @@
 <div class="mdl-grid bi-content"  ng-controller="listarFotosController">
    <main class="mdl-layout__content mdl-color--grey-100" >
-      <a class="btn btn-primary" disable ng-click="adicionarFotos()"><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
-      <i class="material-icons">add</i> Subir Fotos
-      </button></a>
+
+   <div class="mdl-card__title fotos" ng-hide="usuarioLogado.fotos" >
       <div style="display: block">
          <div class="mdl-textfield mdl-js-textfield mdl-textfield--file">
             <input class="mdl-textfield__input" placeholder="File" type="text" id="uploadFile" readonly/>
@@ -11,15 +10,28 @@
             </div>
          </div>
       </div>
+      <a class="btn btn-primary" disable ng-click="adicionarFotos()"  ng-if="usuarioLogado.eventos"><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+      <i class="material-icons">add</i> Subir Fotos
+      </button></a>
+   </div>
+      
+
+      <div class="mdl-card__title " ng-if="usuarioLogado.fotos">
+      
+         <a class="btn btn-primary" disable ng-click="finalizarEscolha()"><button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+      <i class="material-icons">backup</i> Finalizar Escolha
+      </button></a>
+         </div>
+
       <div class="mdl-grid bi-content"  >
          <div class=" mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-grid mdl-grid--no-spacing" ng-repeat="foto in fotos | orderBy: 'id'">
             <div class="bi-updates mdl-card mdl-shadow--2dp mdl-cell mdl-cell--4-col mdl-cell--4-col-tablet mdl-cell--12-col-desktop" style='background-image: url({{foto.url}}); background-position: 50% 50%; background-repeat: no-repeat;'>
                <div class="mdl-card__actions mdl-card--border">
-                  <div class="mdl-card__menu">
-                        <button ng-click="escolherFoto(foto)" ng-if="foto.selecionada == 0" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored">
+                  <div class="mdl-card__menu" ng-if="usuarioLogado.fotos">
+                        <button ng-click="escolherFoto(foto)" ng-if="foto.selecionada == 0" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button add">
                            <i  class="material-icons">add</i>
                         </button>
-                         <button ng-click="escolherFoto(foto)" ng-if="foto.selecionada == 1" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab">
+                         <button ng-click="escolherFoto(foto)" ng-if="foto.selecionada == 1" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab remove">
                            <i  class="material-icons">remove</i>
                         </button>
                   </div>
